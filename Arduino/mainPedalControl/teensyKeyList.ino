@@ -139,7 +139,7 @@ char keyList(int var) {
       return KEY_BACKSLASH;
       break;
     case 47:
-      return KEY_BACKSLASH;
+      return KEY_BACKSLASH;  //47 is the same like 46 because "KEY_NUMBER" caused a problem
       //return KEY_NUMBER;
       break;
     case 48:

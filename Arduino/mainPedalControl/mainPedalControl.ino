@@ -1,4 +1,4 @@
-//Code Version 1.0
+//Code Version 1.1
 #include <EEPROM.h>  //Import EEPROM
 
 int l1 = 0;  //Left 1
@@ -12,10 +12,10 @@ boolean newKeys = false;  //Await new Keys
 int countNewKeys = 0;  //Counter for Keys
 int newKey = 0;  //Storage for the new Key until Finish
 
-int delayL = 100;
-int delayR = 100;
-int delayCounterL = 0;
-int delayCounterR = 0;
+int delayL = 100;  //Delay for Left
+int delayR = 100;  //Delay for Right
+int delayCounterL = 0;  //Delay Counter for Left
+int delayCounterR = 0;  //Delay Counter for Right
 
 void setup() {
   pinMode(l1, INPUT_PULLUP);  //Pin declaration
@@ -92,7 +92,7 @@ void loop() {
   boolean b1 = true;  //Boolean for Left
   boolean b2 = true;  //Boolean for Right
   if(!digitalRead(l1) && digitalRead(l2)) {  //If only the first switch on Left activated
-    if(key[2] == 0 && key[3] == 0 || delayCounterL >= delayL) {
+    if(key[2] == 0 && key[3] == 0 || delayCounterL >= delayL) {  //If the second state is not used OR the Delay Counter is reached
       if(key[0] != 0) {  //If the Key not Zero. Meaning is not Disabled.
         Keyboard.set_modifier(modList(key[0]));  //Set the Key
         b1 = false;  //Disable the Boolean
@@ -102,8 +102,8 @@ void loop() {
         b1 = false;
       }
     } else {
-      delayCounterL++;
-      b1 = false;
+      delayCounterL++;  //Increase the Counter
+      b1 = false;  //Disable the Boolean
     }
   } else if(!digitalRead(l1) && !digitalRead(l2)) {  //If all two switches on Left activated
     delayCounterL = 0;
@@ -118,7 +118,7 @@ void loop() {
   }
   
   if(!digitalRead(r1) && digitalRead(r2)) {  //If only the first switch on Right activated
-    if(key[6] == 0 && key[7] == 0 || delayCounterR >= delayR) {
+    if(key[6] == 0 && key[7] == 0 || delayCounterR >= delayR) {  //If the second state is not used OR the Delay Counter is reached
       if(key[4] != 0) {
         Keyboard.set_modifier(modList(key[4]));
         b2 = false;
@@ -128,8 +128,8 @@ void loop() {
         b2 = false;
       }
     } else {
-      delayCounterR++;
-      b2 = false;
+      delayCounterR++;  //Increase the Counter
+      b2 = false;  //Disable the Boolean
     }
   } else if(!digitalRead(r1) && !digitalRead(r2)) {  //If all two switches on Right activated
     delayCounterR = 0;
@@ -144,14 +144,14 @@ void loop() {
   }
   
   if(b1) {  //Is the Left Boolean not Disabled. Meaning no switch is activated
-    delayCounterL = 0;
+    delayCounterL = 0;  //Set the Counter back to Zero
     Keyboard.set_modifier(0);  //Reset the Keys
     Keyboard.set_key1(0);
   }
   
   if(b2) {  //Is the Right Boolean not Disabled.
-    delayCounterR = 0;
-    Keyboard.set_modifier(0);
+    delayCounterR = 0;  //Set the Counter back to Zero
+    Keyboard.set_modifier(0);  //Reset the Keys
     Keyboard.set_key2(0); 
   }
   
